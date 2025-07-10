@@ -63,6 +63,7 @@ function TagInput({ tags, setTags,empty }: { tags: string[], setTags: React.Disp
         
           />
         ))}
+        
       </div>
     </div>
   );
@@ -93,7 +94,7 @@ function TagInput({ tags, setTags,empty }: { tags: string[], setTags: React.Disp
     try {
 
 
-         await axios.post('https://backend-note-2px9.onrender.com/api/creatednote', {
+         await axios.post('http://localhost:8080/api/creatednote', {
 
           title: Title,
 

@@ -7,7 +7,8 @@ import NotesList from "./components/Notelist";
 import { RecoilRoot } from 'recoil';
 import ReactLoading from 'react-loading';
 import Footer from "./components/footer"
-
+import Register from "./components/Register"
+import Login from './components/Login';
 function App1() {
   const [isServerReady, setIsServerReady] = useState(false);
 
@@ -46,6 +47,8 @@ function App1() {
         <Routes>
           <Route path="/" element={<div><Search /> <CreateNote /> <NotesList /> <Footer/></div>} />
           <Route path="/Note" element={<Note />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </RecoilRoot>
     </div>

@@ -49,7 +49,7 @@ export const NoteCard = ({ note, isAuthenticated }: { note: any, isAuthenticated
       .then(result => {
         if (result) {
           alert('Note deleted successfully');
-          axios.get("https://backend-note-2px9.onrender.com/api/showdata").then(
+          axios.get("http://localhost:8080/api/showdata").then(
             (res: AxiosResponse) => {
               setBoxes(res.data);
             }
@@ -121,9 +121,11 @@ function NotesList() {
   const notesPerPage = 6; // Adjust this number for how many notes per page
 
   useEffect(() => {
-    axios.get("https://backend-note-2px9.onrender.com/api/showdata")
+    axios.get("http://localhost:8080/api/showdata")
       .then((res: AxiosResponse) => {
-        setBoxes(res.data);
+        setBoxes(res.data.reversedNotes);
+        console.log(res.data.reversedNotes)
+          console.log(boxes)
       })
       .catch((e) => {
         console.log("Error while fetching", e);
