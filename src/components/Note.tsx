@@ -81,7 +81,8 @@ function TagInput({ tags, setTags,empty }: { tags: string[], setTags: React.Disp
   const collectNote = async () => {
     
 
-  
+  const token = localStorage.getItem("jwtToken");
+
     if(Title.trim()===""){
       setTitle(" ");
       setTags([]);
@@ -93,17 +94,19 @@ function TagInput({ tags, setTags,empty }: { tags: string[], setTags: React.Disp
      // http://localhost:8080/api/creatednote
     try {
 
-
-         await axios.post('http://localhost:8080/api/creatednote', {
-
-          title: Title,
-
-          tags: Tags,
-
-          description: Discription
-
-        });
-
+  await axios.post(
+      'http://localhost:8080/api/creatednote',
+      {
+        title: Title,
+        tags: Tags,
+        description: Discription,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      }
+    );
     
 
       } catch (e) {

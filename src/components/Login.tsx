@@ -37,6 +37,9 @@ e.preventDefault();
 
   const data = res.data;
   console.log(data)
+  const {name,token,welcome}=data;
+  localStorage.setItem("jwtToken",token);
+  console.log(token)
   if (res.status === 200 || res.status === 201) {
     alert("login successful!");
     navigate("/");
@@ -79,8 +82,7 @@ e.preventDefault();
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "hidden",
-              }}
-            />
+              }} crossOrigin={undefined}            />
           </div>
           <div className="mb-6">
             <label htmlFor="password">
@@ -100,18 +102,15 @@ e.preventDefault();
               labelProps={{
                 className: "hidden",
               }}
- className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               type={passwordShown ? "text" : "password"}
-              icon={
-                <i onClick={togglePasswordVisiblity}>
-                  {passwordShown ? (
-                    <EyeIcon className="h-5 w-5" />
-                  ) : (
-                    <EyeSlashIcon className="h-5 w-5" />
-                  )}
-                </i>
-              }
-            />
+              icon={<i onClick={togglePasswordVisiblity}>
+                {passwordShown ? (
+                  <EyeIcon className="h-5 w-5" />
+                ) : (
+                  <EyeSlashIcon className="h-5 w-5" />
+                )}
+              </i>} crossOrigin={undefined}            />
           </div>
           <Button color="gray" size="lg" className="mt-10" fullWidth type="submit">
             sign in

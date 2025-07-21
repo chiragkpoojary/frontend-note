@@ -15,6 +15,7 @@ const noteState = atom<Noteinter[]>({
 });
 
 export const NoteCard = ({ note, isAuthenticated }: { note: any, isAuthenticated: boolean }) => {
+   const token = localStorage.getItem("jwtToken");
   const [, setBoxes] = useRecoilState(noteState);
   const password = useRecoilValue(passwordState);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -49,7 +50,11 @@ export const NoteCard = ({ note, isAuthenticated }: { note: any, isAuthenticated
       .then(result => {
         if (result) {
           alert('Note deleted successfully');
-          axios.get("http://localhost:8080/api/showdata").then(
+          axios.get("http://localhost:8080/api/showdata" ,{
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      },).then(
             (res: AxiosResponse) => {
               setBoxes(res.data);
             }
@@ -113,6 +118,7 @@ export const NoteCard = ({ note, isAuthenticated }: { note: any, isAuthenticated
 };
 
 function NotesList() {
+     const token = localStorage.getItem("jwtToken");
   const isAuthenticated = useRecoilValue(authState);
   const [boxes, setBoxes] = useRecoilState(noteState);
 
@@ -121,7 +127,11 @@ function NotesList() {
   const notesPerPage = 6; // Adjust this number for how many notes per page
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/showdata")
+    axios.get("http://localhost:8080/api/showdata",{
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      },)
       .then((res: AxiosResponse) => {
         setBoxes(res.data.reversedNotes);
         console.log(res.data.reversedNotes)
