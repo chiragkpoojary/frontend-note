@@ -41,7 +41,7 @@ e.preventDefault();
   localStorage.setItem("jwtToken",token);
   console.log(token)
   if (res.status === 200 || res.status === 201) {
-    alert("login successful!");
+    alert(welcome);
     navigate("/");
   } else {
     alert(data.message || "login failed");

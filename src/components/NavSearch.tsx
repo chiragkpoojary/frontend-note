@@ -93,9 +93,9 @@ const NavSearch = () => {
     };
 
     return (
-        <div>
-            <div className="flex justify-center items-center mt-5">
-                <div className="sm:w-full max-w-md w-[75%]">
+        <span >
+            <span className="flex justify-center items-center  ">
+                <div className="">
                     <input
                         type="search"
                         className="px-4 py-2 border rounded-lg shadow-md focus:outline-none focus:ring focus:ring-gray-400 w-full bg-gray-300 placeholder-gray-700"
@@ -104,8 +104,8 @@ const NavSearch = () => {
                         onChange={handleSearch}
                     />
                 </div>
-            </div>
-            <div className='flex flex-col items-end mr-10'>
+            </span>
+            {/* <div className='flex flex-col items-end mr-10'>
                 <Button onClick={showFormHandler}>
                     {showForm ? 'Hide Auth' : 'Show Auth'}
                 </Button>
@@ -123,8 +123,8 @@ const NavSearch = () => {
                         <Button type="submit" className='-mt-1'>Submit</Button>
                     </form>
                 )}
-            </div>
-        </div>
+            </div> */}
+        </span>
     );
 };
 
