@@ -39,11 +39,11 @@ export const NoteCard = ({ note, isAuthenticated }: { note: any, isAuthenticated
   };
 
   const handleDelete = () => {
-    fetch(`https://backend-note-2px9.onrender.com/api/delete/${note._id}`, {
+    console.log(note._id)
+    fetch(`http:localhost:8080/api/perdelete/${note._id}`, {
       method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json',
-        'passcode': password,
+          Authorization: `Bearer ${token}`,
       },
     })
       .then(response => response.json())
@@ -104,7 +104,7 @@ export const NoteCard = ({ note, isAuthenticated }: { note: any, isAuthenticated
             {isExpanded ? 'Show Less' : 'Read More'}
           </Button>
         )}
-        {isAuthenticated && (
+        {token && (
           <IconButton
             className=" text-red-500 bg-white mt-3"
             onClick={handleDelete}

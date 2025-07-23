@@ -13,8 +13,33 @@ import NotFound from './components/error';
 import ProfileMenu from './components/profile';
 import { jwtDecode } from 'jwt-decode';
 
+import SessionExpiredModal from "./components/SessionExpiredModal";
 
+  import {isExpiry} from './utils/Tokenexpiry' 
 function App1() {
+
+  const [tokenExpired, setTokenExpired] = useState(false);
+
+  useEffect(() => {
+    const checkExpiry = () => {
+      if (isExpiry()) {
+        setTokenExpired(true);
+      }
+    };
+
+    checkExpiry(); // run once on load
+    const interval = setInterval(checkExpiry, 30000); // every 30s
+
+    return () => clearInterval(interval);
+  }, []);
+
+
+  const handleLogout = () => {
+    localStorage.removeItem("jwtToken");
+    alert("session ended login again");
+    window.location.href = "/login"; // or use navigate()
+  };
+
 
   const [isServerReady, setIsServerReady] = useState(false);
 
