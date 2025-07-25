@@ -18,7 +18,7 @@ setformdata((prev)=>({...prev,[name]:value}))
 
 }
   async function handlelogin(e: FormEvent<HTMLFormElement>){
-console.log(formdata)
+
 e.preventDefault();
 
  try {

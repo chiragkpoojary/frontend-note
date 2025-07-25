@@ -11,34 +11,15 @@ import Register from "./components/Register"
 import Login from './components/Login';
 import NotFound from './components/error';
 import ProfileMenu from './components/profile';
-import { jwtDecode } from 'jwt-decode';
 
-import SessionExpiredModal from "./components/SessionExpiredModal";
 
-  import {isExpiry} from './utils/Tokenexpiry' 
+import {useAutoLogout} from "./utils/autologout.ts"
 function App1() {
 
-  const [tokenExpired, setTokenExpired] = useState(false);
-
-  useEffect(() => {
-    const checkExpiry = () => {
-      if (isExpiry()) {
-        setTokenExpired(true);
-      }
-    };
-
-    checkExpiry(); // run once on load
-    const interval = setInterval(checkExpiry, 30000); // every 30s
-
-    return () => clearInterval(interval);
-  }, []);
 
 
-  const handleLogout = () => {
-    localStorage.removeItem("jwtToken");
-    alert("session ended login again");
-    window.location.href = "/login"; // or use navigate()
-  };
+
+
 
 
   const [isServerReady, setIsServerReady] = useState(false);
@@ -71,7 +52,7 @@ function App1() {
   //     </div>
   //   );
   // }
-
+    useAutoLogout();
   return (
     <div className={`flex flex-col min-h-screen`}>
 
@@ -98,6 +79,7 @@ function App1() {
 }
 
 function App() {
+
   return <App1 />;
 }
 

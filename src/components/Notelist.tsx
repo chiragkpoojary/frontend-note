@@ -14,13 +14,13 @@ const noteState = atom<Noteinter[]>({
   default: [],
 });
 
-export const NoteCard = ({ note, isAuthenticated }: { note: any, isAuthenticated: boolean }) => {
+export const NoteCard = ({ note }: { note: any}) => {
    const token = localStorage.getItem("jwtToken");
   const [, setBoxes] = useRecoilState(noteState);
-  const password = useRecoilValue(passwordState);
   const [isExpanded, setIsExpanded] = useState(false);
   const maxLength = 100;
-
+  let notesPerPage=4;
+  const [currentPage, setCurrentPage] = useState(1);
   const truncateText = (text: string, length: number) => {
     if (text.length <= length) return text;
     return text.substr(0, length) + '...';
@@ -38,28 +38,30 @@ export const NoteCard = ({ note, isAuthenticated }: { note: any, isAuthenticated
     }
   };
 
+
+
   const handleDelete = () => {
-    console.log(note._id)
-    fetch(`http:localhost:8080/api/perdelete/${note._id}`, {
-      method: 'DELETE',
+    axios.delete(`http://localhost:8080/api/perdelete/${note._id}`, {
       headers: {
           Authorization: `Bearer ${token}`,
       },
     })
-      .then(response => response.json())
       .then(result => {
         if (result) {
           alert('Note deleted successfully');
-          axios.get("http://localhost:8080/api/showdata" ,{
+          axios.get(`http://localhost:8080/api/showdata?page=${currentPage}&limit=${notesPerPage}`,{
         headers: {
           Authorization: `Bearer ${token}`, 
         },
-      },).then(
-            (res: AxiosResponse) => {
-              setBoxes(res.data);
+      },).then((res: AxiosResponse) => {
+            const notes = res.data.note;
+
+            if (Array.isArray(notes)) {
+              setBoxes(notes);
+            } else {
+              console.error("Expected reversedNotes to be an array, got:", notes);
+              setBoxes([]); // Fallback to avoid slice crash
             }
-          ).catch((e) => {
-            console.log("error while fetching", e);
           })
         } else {
           alert('Failed to delete note');
@@ -119,7 +121,6 @@ export const NoteCard = ({ note, isAuthenticated }: { note: any, isAuthenticated
 
 function NotesList() {
      const token = localStorage.getItem("jwtToken");
-  const isAuthenticated = useRecoilValue(authState);
   const [boxes, setBoxes] = useRecoilState(noteState);
 
   // Pagination states
@@ -127,15 +128,14 @@ function NotesList() {
   const notesPerPage = 6; // Adjust this number for how many notes per page
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/showdata",{
+    axios.get(`http://localhost:8080/api/showdata?page=${currentPage}&limit=${notesPerPage}`,{
         headers: {
           Authorization: `Bearer ${token}`, 
         },
       },)
       .then((res: AxiosResponse) => {
-        setBoxes(res.data.reversedNotes);
-        console.log(res.data.reversedNotes)
-          console.log(boxes)
+        setBoxes(res.data.note);
+
       })
       .catch((e) => {
         console.log("Error while fetching", e);
@@ -145,7 +145,11 @@ function NotesList() {
   // Get the current notes for the page
   const indexOfLastNote = currentPage * notesPerPage;
   const indexOfFirstNote = indexOfLastNote - notesPerPage;
-  const currentNotes = boxes.slice(indexOfFirstNote, indexOfLastNote);
+  const currentNotes = Array.isArray(boxes)
+      ? boxes.slice(indexOfFirstNote, indexOfLastNote)
+      : [];
+
+
 
   // Change page
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
@@ -164,7 +168,7 @@ function NotesList() {
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-16'>
             {currentNotes.map((note, index) => (
               <div key={index} className="flex justify-center items-center">
-                <NoteCard note={note} isAuthenticated={isAuthenticated} />
+                <NoteCard note={note}  />
               </div>
             ))}
           </div>
