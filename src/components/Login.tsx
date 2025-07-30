@@ -36,10 +36,10 @@ e.preventDefault();
   );
 
   const data = res.data;
-  console.log(data)
+
   const {name,token,welcome}=data;
   localStorage.setItem("jwtToken",token);
-  console.log(token)
+
   if (res.status === 200 || res.status === 201) {
     alert(welcome);
     navigate("/");

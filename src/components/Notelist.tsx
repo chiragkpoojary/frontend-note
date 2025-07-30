@@ -19,8 +19,9 @@ export const NoteCard = ({ note }: { note: any}) => {
   const [, setBoxes] = useRecoilState(noteState);
   const [isExpanded, setIsExpanded] = useState(false);
   const maxLength = 100;
-  let notesPerPage=4;
+  const notesPerPage=6;
   const [currentPage, setCurrentPage] = useState(1);
+
   const truncateText = (text: string, length: number) => {
     if (text.length <= length) return text;
     return text.substr(0, length) + '...';
@@ -54,6 +55,7 @@ export const NoteCard = ({ note }: { note: any}) => {
           Authorization: `Bearer ${token}`, 
         },
       },).then((res: AxiosResponse) => {
+
             const notes = res.data.note;
 
             if (Array.isArray(notes)) {
@@ -122,7 +124,7 @@ export const NoteCard = ({ note }: { note: any}) => {
 function NotesList() {
      const token = localStorage.getItem("jwtToken");
   const [boxes, setBoxes] = useRecoilState(noteState);
-
+const[totalPage,setTotalPages]=useState(0);
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const notesPerPage = 6; // Adjust this number for how many notes per page
@@ -135,24 +137,17 @@ function NotesList() {
       },)
       .then((res: AxiosResponse) => {
         setBoxes(res.data.note);
-
+        setTotalPages(Math.ceil(res.data.total/6));
       })
       .catch((e) => {
         console.log("Error while fetching", e);
       });
-  }, []);
+  }, [currentPage]);
 
-  // Get the current notes for the page
-  const indexOfLastNote = currentPage * notesPerPage;
-  const indexOfFirstNote = indexOfLastNote - notesPerPage;
-  const currentNotes = Array.isArray(boxes)
-      ? boxes.slice(indexOfFirstNote, indexOfLastNote)
-      : [];
 
 
 
   // Change page
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
     <div>
@@ -166,7 +161,7 @@ function NotesList() {
       ) : (
         <>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-16'>
-            {currentNotes.map((note, index) => (
+            {boxes.map((note, index) => (
               <div key={index} className="flex justify-center items-center">
                 <NoteCard note={note}  />
               </div>
@@ -177,23 +172,23 @@ function NotesList() {
           <div className="flex justify-center space-x-2 mt-4">
             <Button
               className="text-gray-500"
-              onClick={() => paginate(currentPage - 1)}
-              disabled={currentPage === 1}
+              onClick={()=>setCurrentPage(currentPage-1)}
+               disabled={currentPage === 1}
               variant="gradient"
             >
               &lt;
             </Button>
             <Button
               className="text-gray-500"
-              onClick={() => paginate(currentPage + 1)}
-              disabled={indexOfLastNote >= boxes.length}
+              onClick={() => setCurrentPage(currentPage + 1)}
+               disabled={totalPage === currentPage}
               variant="gradient"
             >
                  &gt;
             </Button>
           </div>
           <Typography className="text-center mt-2 text-gray-900 font-semibold">
-            Page {currentPage} of {Math.ceil(boxes.length / notesPerPage)}
+            Page {currentPage}/{totalPage}
           </Typography>
         </>
       )}
