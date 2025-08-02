@@ -10,6 +10,7 @@ export default function Login() {
 const [formdata,setformdata]= useState({email:"",password:""})
 
 
+
 function handlechange(e:React.ChangeEvent<HTMLInputElement>){
 
 const {name,value}=e.target;
@@ -116,6 +117,9 @@ e.preventDefault();
             sign in
           </Button>
           <div className="!mt-4 flex justify-end">
+              <button  onClick={()=>navigate('/forgotpass')}>
+
+
             <Typography
               as="a"
               href="#"
@@ -125,6 +129,7 @@ e.preventDefault();
             >
               Forgot password
             </Typography>
+              </button>
           </div>
           <Typography
             variant="small"

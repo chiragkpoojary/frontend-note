@@ -4,9 +4,8 @@ import Fuse from 'fuse.js';
 import { ChangeEvent, useState, useEffect } from 'react';
 import axios from "axios";
 import { AxiosResponse } from "axios";
-import { Button } from '@material-tailwind/react';
-import { authState } from './authstate';
-import { passwordState } from './password';
+
+
 
 export interface Noteinter {
     _id: string;
@@ -22,10 +21,9 @@ const NavSearch = () => {
     const [, setSearchlist] = useRecoilState<Noteinter[]>(noteState);
     const [allNotes, setAllNotes] = useState<Noteinter[]>([]); 
     const [filteredNotes, setFilteredNotes] = useState<Noteinter[]>([]); 
-    const [, setIsAuthenticated] = useRecoilState(authState);
+
     const [searchQuery, setSearchQuery] = useState('');
-    const [showForm, setShowForm] = useState(false);
-    const [password, setPassword] = useRecoilState(passwordState);
+
 
 
     useEffect(() => {
@@ -63,34 +61,6 @@ const NavSearch = () => {
         setSearchlist(filteredNotes); 
     };
 
-    const showFormHandler = () => setShowForm(!showForm);
-
- 
-    const handleSubmit = async (e: { preventDefault: () => void; }) => {
-        e.preventDefault();
-        try {
-            const response = await fetch('https://backend-note-2px9.onrender.com/api/auth', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'passcode': password
-                }
-            });
-            const result = await response.json();
-            if (response.ok) {
-                alert('Authenticated successfully!');
-                setShowForm(false);
-                setIsAuthenticated(true);
-            } else {
-                alert(result.message);
-                setShowForm(false);
-                setPassword("");
-                setIsAuthenticated(false);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
 
     return (
         <span >
@@ -105,25 +75,8 @@ const NavSearch = () => {
                     />
                 </div>
             </span>
-            {/* <div className='flex flex-col items-end mr-10'>
-                <Button onClick={showFormHandler}>
-                    {showForm ? 'Hide Auth' : 'Show Auth'}
-                </Button>
 
-                {showForm && (
-                    <form onSubmit={handleSubmit} className='mt-3 space-x-2'>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Enter password"
-                            className='h-10 border-gray-700 rounded-xl '
-                            required
-                        />
-                        <Button type="submit" className='-mt-1'>Submit</Button>
-                    </form>
-                )}
-            </div> */}
+
         </span>
     );
 };

@@ -14,15 +14,12 @@ import ProfileMenu from './components/profile';
 
 
 import {useAutoLogout} from "./utils/autologout.ts"
+
+import MailResetPassword from './components/MailResetPassword.tsx';
+import ResetPassword from "./components/resetPassword.tsx";
+
 function App1() {
-
-
-
-
-
-
-
-  const [isServerReady, setIsServerReady] = useState(false);
+    const [isServerReady, setIsServerReady] = useState(false);
 
   function checkServerStatus() {
     fetch('https://backend-note-2px9.onrender.com/health')
@@ -69,6 +66,8 @@ function App1() {
           <Route path="/Note" element={<Note />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+            <Route path="/forgotpass" element={<MailResetPassword />}/>
+            <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
 

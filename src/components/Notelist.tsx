@@ -1,13 +1,13 @@
 import { Typography, Card, Chip, Button, IconButton } from "@material-tailwind/react";
 import { FaRegLightbulb } from "react-icons/fa6";
 import { useState, useEffect } from 'react';
-import { atom, useRecoilState, useRecoilValue } from 'recoil';
+import { atom, useRecoilState } from 'recoil';
 import { Noteinter } from './NavSearch'; 
 import axios from "axios";
 import { AxiosResponse } from 'axios';
-import { authState } from './authstate';
+
 import { MdDelete } from 'react-icons/md';
-import { passwordState } from './password';
+
 import { MdOutlineContentCopy } from "react-icons/md";
 const noteState = atom<Noteinter[]>({
   key: 'noteState',
@@ -20,7 +20,7 @@ export const NoteCard = ({ note }: { note: any}) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const maxLength = 100;
   const notesPerPage=6;
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage,] = useState(1);
 
   const truncateText = (text: string, length: number) => {
     if (text.length <= length) return text;
