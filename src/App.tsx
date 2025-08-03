@@ -22,7 +22,7 @@ function App1() {
     const [isServerReady, setIsServerReady] = useState(false);
 
   function checkServerStatus() {
-    fetch('https://backend-note-2px9.onrender.com/health')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/health`)
       .then(response => response.json())
       .then(data => {
         if (data.status === 'ok') {
@@ -33,23 +33,22 @@ function App1() {
         console.error('Error checking server status:', error);
       });
   }
-
-  // useEffect(() => {
-  //   // Poll every 5 seconds
-  //   const intervalId = setInterval(checkServerStatus, 5000);
-
-  //   // Clean up interval on component unmount
-  //   return () => clearInterval(intervalId);
-  // }, []);
-
-  // if (!isServerReady) {
-  //   return (
-  //     <div className="flex items-center justify-center min-h-screen">
-  //       <ReactLoading type={'spin'} color={'#000000'} height={100} width={100} />
-  //     </div>
-  //   );
-  // }
     useAutoLogout();
+  useEffect(() => {
+    const intervalId = setInterval(checkServerStatus, 5000);
+
+    // Clean up interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+  if (!isServerReady) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <ReactLoading type={'spin'} color={'#000000'} height={100} width={100} />
+      </div>
+    );
+  }
+
   return (
     <div className={`flex flex-col min-h-screen`}>
 
