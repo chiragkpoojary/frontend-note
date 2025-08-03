@@ -10,10 +10,11 @@ import {
 import { useState } from "react";
 import axios from "axios";
 import {useNavigate, useSearchParams} from "react-router-dom";
+import ReactLoading from "react-loading";
 
 
 export default function ResetPassword() {
-    const router=useNavigate();
+    const navigate=useNavigate();
     const searchParams = useSearchParams()[0];
 
     const user_id = searchParams.get("id");
@@ -40,14 +41,14 @@ export default function ResetPassword() {
         setLoading(true);
         try {
             const res = await axios.post(
-                `http://localhost:8080/api/resetpassword/${user_id}/${token}`,
+                `${import.meta.env.VITE_BACKEND_URL}/api/resetpassword/${user_id}/${token}`,
                 {password:password},
                 { headers: { "Content-Type": "application/json" } }
             );
 
             if (res.data.status === "ok") {
                 alert("Password reset successful! Redirecting to login...");
-                // router.navigate("/login");
+                navigate("/login");
             } else {
                 alert(res.data.message || "Password reset failed.");
             }

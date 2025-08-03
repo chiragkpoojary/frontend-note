@@ -42,7 +42,7 @@ export const NoteCard = ({ note }: { note: any}) => {
 
 
   const handleDelete = () => {
-    axios.delete(`http://localhost:8080/api/perdelete/${note._id}`, {
+    axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/perdelete/${note._id}`, {
       headers: {
           Authorization: `Bearer ${token}`,
       },
@@ -50,7 +50,7 @@ export const NoteCard = ({ note }: { note: any}) => {
       .then(result => {
         if (result) {
           alert('Note deleted successfully');
-          axios.get(`http://localhost:8080/api/showdata?page=${currentPage}&limit=${notesPerPage}`,{
+          axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/showdata?page=${currentPage}&limit=${notesPerPage}`,{
         headers: {
           Authorization: `Bearer ${token}`, 
         },
@@ -62,7 +62,7 @@ export const NoteCard = ({ note }: { note: any}) => {
               setBoxes(notes);
             } else {
               console.error("Expected reversedNotes to be an array, got:", notes);
-              setBoxes([]); // Fallback to avoid slice crash
+              setBoxes([]);
             }
           })
         } else {
@@ -130,7 +130,7 @@ const[totalPage,setTotalPages]=useState(0);
   const notesPerPage = 6; // Adjust this number for how many notes per page
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/showdata?page=${currentPage}&limit=${notesPerPage}`,{
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/showdata?page=${currentPage}&limit=${notesPerPage}`,{
         headers: {
           Authorization: `Bearer ${token}`, 
         },

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Alert } from "@material-tailwind/react";
 
 import axios from "axios";
+import ReactLoading from "react-loading";
 
 
 
@@ -75,7 +76,7 @@ function TagInput({ tags, setTags,empty }: { tags: string[], setTags: React.Disp
   const [Tags, setTags] = useState<string[]>([]);
   const [Discription, setDescription] = useState("");
   const [empty,setempty] = useState(false);
- 
+     const [loading, setLoading] = useState<boolean>(false);
 
 
   const collectNote = async () => {
@@ -91,11 +92,11 @@ function TagInput({ tags, setTags,empty }: { tags: string[], setTags: React.Disp
    
     }else{
      
-     // http://localhost:8080/api/creatednote
-    try {
 
-  await axios.post(
-      'http://localhost:8080/api/creatednote',
+    try {
+setLoading(true);
+  const res=await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/creatednote`,
       {
         title: Title,
         tags: Tags,
@@ -107,7 +108,8 @@ function TagInput({ tags, setTags,empty }: { tags: string[], setTags: React.Disp
         },
       }
     );
-    
+    setLoading(false);
+  alert(res.data.message);
 
       } catch (e) {
 
@@ -160,16 +162,26 @@ function Alert1(){
 <Textarea label="Discription"   rows={10}   onChange={(e)=>{setDescription(e.target.value)}} value={Discription} disabled={empty} />
 <div className="flex w-full justify-between py-1.5 " aria-disabled={!open}>
   
-  <div className="flex gap-2">
-    <Button size="sm" color="red" variant="text" className="rounded-md shadow-2xl" onClick={()=>{  setTitle(" ");
+  <div className="flex gap-5">
+    <Button size="lg" color="red" variant="text" className="rounded-md shadow-xl flex items-center justify-center bg-gray-200" onClick={()=>{  setTitle(" ");
     setTags([]);
     setDescription(" ");}} disabled={empty}>
       Cancel
     </Button>
-    <Button size="sm" className="rounded-md shadow-2xl" onClick={collectNote} disabled={empty}>
-   
-      Add Note
-    </Button>
+      <Button
+          color="gray"
+          size="sm"
+          className=" flex items-center justify-center gap-2"
+          fullWidth
+          type="submit"
+          onClick={collectNote}
+          disabled={loading}
+      >
+          {loading && (
+              <ReactLoading type="spin" color="#fff" height={20} width={20} />
+          )}
+          {loading ? "Submitting..." : "Add Note"}
+      </Button>
     </div>
   
   </div>

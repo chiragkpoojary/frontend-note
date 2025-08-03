@@ -80,7 +80,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   }
    try {
   const res = await axios.post(
-    "http://localhost:8080/api/register",
+    `${import.meta.env.VITE_BACKEND_URL}/api/register`,
     {
       username: formData.username,
       email: formData.email,

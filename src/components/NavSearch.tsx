@@ -4,6 +4,7 @@ import Fuse from 'fuse.js';
 import { ChangeEvent, useState, useEffect } from 'react';
 import axios from "axios";
 import { AxiosResponse } from "axios";
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -18,8 +19,8 @@ export interface Noteinter {
 }
 
 const NavSearch = () => {
+    const naviagte=useNavigate();
     const [, setSearchlist] = useRecoilState<Noteinter[]>(noteState);
-    const [allNotes, setAllNotes] = useState<Noteinter[]>([]); 
     const [filteredNotes, setFilteredNotes] = useState<Noteinter[]>([]); 
 
     const [searchQuery, setSearchQuery] = useState('');
@@ -27,39 +28,24 @@ const NavSearch = () => {
 
 
     useEffect(() => {
-        axios.get("https://backend-note-2px9.onrender.com/api/showdata").then(
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/searchdata?search=${searchQuery}`).then(
             (res: AxiosResponse) => {
-                setAllNotes(res.data); 
-                setFilteredNotes(res.data); 
+
+                setFilteredNotes(res.data);
             }
         ).catch((e) => {
             console.log("Error while fetching notes", e);
         });
-    }, []);
+    }, [searchQuery]);
 
 
-    const fuse = new Fuse(allNotes, {
-        keys: ['title', 'description',"tags"],
-        threshold: 0.3,
-        distance: 100,
-        minMatchCharLength: 1,
-        includeScore: true,
-    });
 
-   
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setSearchQuery(value);
-
-        if (value.trim() === "") {
-            setFilteredNotes(allNotes); 
-        } else {
-            const results = fuse.search(value);
-            const filteredData = results.map(result => result.item);
-            setFilteredNotes(filteredData); 
-        }
         setSearchlist(filteredNotes); 
     };
+
 
 
     return (

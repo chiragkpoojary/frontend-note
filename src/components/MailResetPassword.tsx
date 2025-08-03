@@ -2,11 +2,12 @@ import { FormEvent, useState } from "react";
 import axios from "axios";
 import { Typography, Input, Button } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
+import ReactLoading from "react-loading";
 
 export default function MailResetPassword() {
     const navigate=useNavigate();
     const [formdata,setformdata]= useState("")
-
+    const[loading ,setLoading] = useState(false);
 
     function handlechange(e:React.ChangeEvent<HTMLInputElement>){
 
@@ -17,12 +18,12 @@ export default function MailResetPassword() {
 
     }
     async function handlereset(e: FormEvent<HTMLFormElement>){
-
+setLoading(true);
         e.preventDefault();
 
         try {
             const res = await axios.post(
-                "http://localhost:8080/api/forgotpass",
+                `${import.meta.env.VITE_BACKEND_URL}/api/forgotpass`,
                 {
                     email:formdata,
                 },
@@ -32,19 +33,21 @@ export default function MailResetPassword() {
                     },
                 }
             );
-
+setLoading(false);
             const data = res.data;
             if (res.status === 200 || res.status === 201) {
                 alert("Mail send to registerd email");
-                // navigate("/login");
+                 navigate("/login");
             } else {
                 alert(data.message || "Email not found");
             }
         } catch (err: any) {
+            setLoading(false);
             console.error(err);
             alert(err.response?.data?.message || "Something went wrong");
         }
     }
+
     return (
         <section className="grid text-center h-screen items-center p-8">
             <div>
@@ -76,8 +79,18 @@ export default function MailResetPassword() {
                             }} crossOrigin={undefined}            />
                     </div>
 
-                    <Button color="gray" size="lg" className="mt-10" fullWidth type="submit">
-                         Submit
+                    <Button
+                        color="gray"
+                        size="lg"
+                        className="mt-10 flex items-center justify-center gap-2"
+                        fullWidth
+                        type="submit"
+                        disabled={loading}
+                    >
+                        {loading && (
+                            <ReactLoading type="spin" color="#fff" height={20} width={20} />
+                        )}
+                        {loading ? "Submitting..." : "Submit"}
                     </Button>
                     <Typography
                         variant="small"
