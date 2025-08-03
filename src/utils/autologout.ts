@@ -14,10 +14,16 @@ export const useAutoLogout = () => {
             window.location.href = "/"; // or use navigate('/')
         };
 
+        let timeLeft;
         try {
             const decoded = jwtDecode(token);
-            const currentTime = Date.now() / 1000; // in seconds
-            const timeLeft = decoded.exp - currentTime;
+            const currentTime = Date.now() / 1000//
+            // in seconds
+
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            timeLeft = decoded.exp - currentTime;
+
 
             if (timeLeft <= 0) {
                 handleLogout(); // already expired
@@ -28,7 +34,7 @@ export const useAutoLogout = () => {
 
                 return () => clearTimeout(timer); // clean up on unmount
             }
-        } catch (err) {
+        } catch (err :any) {
             console.error("Invalid token:", err.message);
             handleLogout();
         }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CreateNote from "./components/CreateNote";
 import Search from "./components/NavSearch";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {  Route, Routes } from "react-router-dom";
 import Note from "./components/Note";
 import NotesList from "./components/Notelist";
 import { RecoilRoot } from 'recoil';
