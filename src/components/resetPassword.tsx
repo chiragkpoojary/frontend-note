@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import axios from "axios";
 import {useNavigate, useSearchParams} from "react-router-dom";
-import ReactLoading from "react-loading";
+
 
 
 export default function ResetPassword() {

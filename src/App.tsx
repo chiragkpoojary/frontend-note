@@ -10,7 +10,7 @@ import Footer from "./components/footer"
 import Register from "./components/Register"
 import Login from './components/Login';
 import NotFound from './components/error';
-import ProfileMenu from './components/profile';
+import {ProfileMenu} from './components/profile';
 
 
 import {useAutoLogout} from "./utils/autologout.ts"
