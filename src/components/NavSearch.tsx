@@ -1,10 +1,9 @@
 import { useRecoilState } from 'recoil';
 import { noteState } from './Notelist';
-import Fuse from 'fuse.js';
 import { ChangeEvent, useState, useEffect } from 'react';
 import axios from "axios";
 import { AxiosResponse } from "axios";
-import {useNavigate} from "react-router-dom";
+
 
 
 
@@ -19,7 +18,6 @@ export interface Noteinter {
 }
 
 const NavSearch = () => {
-    const naviagte=useNavigate();
     const [, setSearchlist] = useRecoilState<Noteinter[]>(noteState);
     const [filteredNotes, setFilteredNotes] = useState<Noteinter[]>([]); 
 

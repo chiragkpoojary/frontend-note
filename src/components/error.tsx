@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Typography, Button } from "@material-tailwind/react";
 import { FlagIcon } from "@heroicons/react/24/solid";
 

@@ -39,7 +39,7 @@ e.preventDefault();
 setLoading(false);
   const data = res.data;
 
-  const {name,token,welcome}=data;
+  const {n,token,welcome}=data;
   localStorage.setItem("jwtToken",token);
 
   if (res.status === 200 || res.status === 201) {
@@ -48,7 +48,7 @@ setLoading(false);
     navigate("/");
   } else {
       setLoading(false);
-    alert(data.message || "login failed");
+    alert(data.message || `login failed${n}`);
   }
 } catch (err: any) {
      setLoading(false);
