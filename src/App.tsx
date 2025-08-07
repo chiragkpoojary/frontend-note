@@ -17,6 +17,7 @@ import {useAutoLogout} from "./utils/autologout.ts"
 
 import MailResetPassword from './components/MailResetPassword.tsx';
 import ResetPassword from "./components/resetPassword.tsx";
+import Visits from "./components/vists.tsx";
 
 function App1() {
     const [isServerReady, setIsServerReady] = useState(false);
@@ -55,7 +56,7 @@ function App1() {
       <RecoilRoot>
 
         <Routes>
-          <Route path="/" element={<div> <div className="flex  justify-end items-center gap-10 sm:mr-16 mt-5 mr-5">
+          <Route path="/" element={<div> <Visits /><div className="flex  justify-end items-center gap-10 sm:mr-16 mt-5 mr-5">
             <Search />
             <ProfileMenu /> 
 
