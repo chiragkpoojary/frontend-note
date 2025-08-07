@@ -10,7 +10,7 @@ import {MdDelete} from 'react-icons/md';
 
 import {MdOutlineContentCopy} from "react-icons/md";
 import {noteState} from "../utils/recolNote.ts";
-import {Boxes} from "lucide-react";
+
 
 
 export const NoteCard = ({note}: { note: any }) => {
@@ -155,7 +155,7 @@ function NotesList() {
                 if (newNotes.length > 0)
                     setBoxes(prev => {
                         const existingIds = new Set(prev.map(note => note._id));
-                        const uniqueNewNotes = newNotes.filter(note => !existingIds.has(note._id));
+                        const uniqueNewNotes = newNotes.filter((note: { _id: string; }) => !existingIds.has(note._id));
                         return [...uniqueNewNotes, ...prev];
                     });
 
