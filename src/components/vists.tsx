@@ -19,7 +19,7 @@ console.log(count)
 
     return (
 
-            <div className="absolute top-3 left-3 z-50">
+            <div className="sm:absolute top-3 left-3 z-50">
                 <div className="flex items-center gap-2 px-3 py-1 rounded-lg bg-white shadow text-sm text-gray-800">
                     <Users className="w-8 h-8 text-gray-800" />
                     {count !== null ? (
