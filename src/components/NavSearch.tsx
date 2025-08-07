@@ -1,5 +1,5 @@
 import { useRecoilState } from 'recoil';
-import { noteState } from './Notelist';
+import {noteState} from "../utils/recolNote.ts";
 import { ChangeEvent, useState, useEffect } from 'react';
 import axios from "axios";
 import { AxiosResponse } from "axios";

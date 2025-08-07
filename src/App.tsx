@@ -18,10 +18,8 @@ import {useAutoLogout} from "./utils/autologout.ts"
 import MailResetPassword from './components/MailResetPassword.tsx';
 import ResetPassword from "./components/resetPassword.tsx";
 import Visits from "./components/vists.tsx";
-
 function App1() {
     const [isServerReady, setIsServerReady] = useState(false);
-
   function checkServerStatus() {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/health`)
       .then(response => response.json())
@@ -58,8 +56,8 @@ function App1() {
             <ProfileMenu /> 
 
             </div>
-            <CreateNote />                                
-    <NotesList /> <Footer /></div>} />
+            <CreateNote />
+              <NotesList/> <Footer /></div>} />
           <Route path="/Note" element={<Note />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
