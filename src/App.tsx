@@ -35,12 +35,6 @@ function App1() {
       });
   }
     useAutoLogout();
-  useEffect(() => {
-    const intervalId = setInterval(checkServerStatus, 5000);
-
-    // Clean up interval on component unmount
-    return () => clearInterval(intervalId);
-  }, []);
 
   if (!isServerReady) {
     return (
