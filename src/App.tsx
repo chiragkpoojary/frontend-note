@@ -35,6 +35,9 @@ function App1() {
       });
   }
     useAutoLogout();
+  useEffect(() => {
+   checkServerStatus();
+  }, []);
 
   if (!isServerReady) {
     return (
