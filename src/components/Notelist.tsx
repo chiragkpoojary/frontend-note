@@ -17,7 +17,9 @@ export const NoteCard = ({note}: { note: any }) => {
     const token = localStorage.getItem("jwtToken");
     const [, setBoxes] = useRecoilState(noteState);
     const [isExpanded, setIsExpanded] = useState(false);
-    const maxLength = 100;
+ 
+
+    const maxLength = 25;
     const notesPerPage = 6;
     const [currentPage,] = useState(1);
 
@@ -90,11 +92,11 @@ export const NoteCard = ({note}: { note: any }) => {
                         />
                     ))}
                 </div>
-                <div className="overflow-x-auto">
+                 <div className="overflow-x-auto">
                     <Typography color="blue-gray" className="mb-2 break-all whitespace-pre-wrap">
-                        {isExpanded ? note.description : truncateText(note.description, maxLength)}
+                       {truncateText(note.description, maxLength)}
                     </Typography>
-                </div>
+                </div> 
                 {note.description.length > maxLength && (
                     <Button
                         onClick={() => setIsExpanded(!isExpanded)}
@@ -104,6 +106,44 @@ export const NoteCard = ({note}: { note: any }) => {
                         {isExpanded ? 'Show Less' : 'Read More'}
                     </Button>
                 )}
+{isExpanded && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="bg-white w-11/12 max-w-3xl p-6 rounded-lg shadow-lg overflow-y-auto max-h-[90vh] relative">
+      
+    <button onClick={copyToClipboard} className="absolute top-6 right-14">
+                    <MdOutlineContentCopy className="cursor-pointer" size={20}/>
+                    {copied && <span className="text-sm text-green-500">Copied!</span>}
+                </button>
+      <button
+        onClick={() => setIsExpanded(false)}
+        className="absolute top-4 right-4 text-red-600 hover:text-gray-900 text-2xl font-bold"
+      >
+        X
+      </button>
+
+
+      <h2 className="text-2xl font-bold mb-4">{note.title}</h2>
+
+     
+      <div className="flex flex-wrap mb-3">
+        {note.tags.map((tag: string, index: number) => (
+          <Chip
+            key={index}
+            className="bg-gray-800 text-white text-xs mb-1 mr-1"
+            value={tag}
+          />
+        ))}
+      </div>
+
+    
+      <p className="whitespace-pre-wrap text-gray-800 leading-relaxed">
+        {note.description}
+      </p>
+    </div>
+  </div>
+)}
+
+
                 {token && (
                     <IconButton
                         className=" text-red-500 bg-white mt-3"
@@ -123,9 +163,9 @@ function NotesList() {
     const token = localStorage.getItem("jwtToken");
     const [boxes, setBoxes] = useRecoilState(noteState);
     const [totalPage, setTotalPages] = useState(0);
-    // Pagination states
+    
     const [currentPage, setCurrentPage] = useState(1);
-    const notesPerPage = 6; // Adjust this number for how many notes per page
+    const notesPerPage = 6; 
     const [lastChecked, setLastChecked] = useState(new Date().toISOString());
     useEffect(() => {
         axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/showdata?page=${currentPage}&limit=${notesPerPage}`, {

@@ -1,15 +1,15 @@
 import { Typography } from "@material-tailwind/react";
 
 const Footer = () => (
-  <footer className="py-6 mt-6 text-center">
+  <footer className=" mt-4 text-center">
     <Typography className="text-gray-900 text-xl font-semibold">
       If you find this web app useful, give a star to the repo!
     </Typography>
     <a
-      href="https://github.com/chiragkpoojary/backend-note"
+      href="https://github.com/chiragkpoojary/frontend-note"
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center mt-4 bg-gray-900 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+      className="inline-flex items-center mt-3 bg-gray-900 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
     >
       <svg
         aria-hidden="true"

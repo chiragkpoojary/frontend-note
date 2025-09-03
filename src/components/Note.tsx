@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Chip,Typography ,Textarea,Button} from "@material-tailwind/react";
+import { Input, Chip,Button} from "@material-tailwind/react";
 import { useNavigate } from 'react-router-dom';
 
 import { Alert } from "@material-tailwind/react";
@@ -136,72 +136,72 @@ function Alert1(){
       setempty(!empty)
 }
 
-  return (
-    <div className="">
-      <Typography variant="h1" className="flex justify-center items-center mt-4">Add Note</Typography>
-      <div className="flex items-start justify-center flex-col ">
-        <div className="flex items-start justify-center min-h-screen px-4 w-full gap-10 md:flex-row flex-col -mt-44 md:mt-28">
-          <div className="w-full max-w-7xl md:max-w-md flex relative">
-            <Input
-              label="Title"
-              crossOrigin={undefined}
-              className="h-16 shadow-xl pr-20"
-              size="lg"
-              onChange={(e)=>{setTitle(e.target.value)}}
-              value={Title}
-              disabled={empty}
-             
-            />
-          </div>
-          <div className="w-60">  
-          <TagInput tags={Tags} setTags={setTags} empty={empty}/>
-          </div>
-        </div>
-        <div className=" w-[32rem] -mt-56 px-4 md:absolute md:top-[34rem]  2xl:ml-[23rem] ">
+return (
+  <div className="flex flex-col items-center px-6 mt-12 w-full ">
+
+    <input
+      type="text"
+      placeholder="Title"
+      className="w-full max-w-4xl text-4xl font-bold outline-none border-none focus:ring-0 placeholder-gray-400 mb-2"
+      value={Title}
+      onChange={(e) => setTitle(e.target.value)}
+      disabled={empty}
+    />
+
     
-<Textarea label="Discription"   rows={10}   onChange={(e)=>{setDescription(e.target.value)}} value={Discription} disabled={empty} />
-<div className="flex w-full justify-between py-1.5 " aria-disabled={!open}>
-  
-  <div className="flex gap-5">
-    <Button size="lg" color="red" variant="text" className="rounded-md shadow-xl flex items-center justify-center bg-gray-200" onClick={()=>{  setTitle(" ");
-    setTags([]);
-    setDescription(" ");}} disabled={empty}>
-      Cancel
-    </Button>
-      <Button
-          color="gray"
-          size="sm"
-          className=" flex items-center justify-center gap-2"
-          fullWidth
-          type="submit"
-          onClick={collectNote}
-          disabled={loading}
-      >
-          {loading && (
-              <ReactLoading type="spin" color="#fff" height={20} width={20} />
-          )}
-          {loading ? "Submitting..." : "Add Note"}
-      </Button>
-    </div>
-  
+<div className="w-full max-w-4xl mb-4 mt-2">
+  <div className="max-w-sm">
+    <TagInput tags={Tags} setTags={setTags} empty={empty} />
   </div>
-  <div className="bg-gray-900 mt-5 rounded-lg w-96 md:w-full">
-        {
-        empty&&<Alert open={empty} onClose={()=>Alert1()} color="red">
-        Please fill the Title 
-        </Alert>
-        
-   
-      }
-      </div>
 </div>
 
-      </div>
-      
-    </div>
-  );
-}
 
+   
+    <textarea
+      placeholder="Start writing your note..."
+      className="w-full max-w-4xl text-lg leading-relaxed outline-none border-none focus:ring-0 placeholder-gray-400 resize-none bg-transparent h-[60vh] overflow-y-auto"
+      value={Discription}
+      onChange={(e) => setDescription(e.target.value)}
+      disabled={empty}
+    />
+
+   
+    <div className="flex gap-4 mt-6 w-full max-w-4xl h-max">
+      <button
+        onClick={() => {
+          setTitle("");
+          setTags([]);
+          setDescription("");
+        }}
+        disabled={empty}
+        className="px-4 py-2 rounded-md bg-gray-200 text-gray-800 hover:bg-gray-300 transition disabled:opacity-50"
+      >
+        Cancel
+      </button>
+
+      <Button
+        onClick={collectNote}
+        disabled={loading}
+        className="px-6 py-2 rounded-md bg-gray-900 text-white hover:bg-black transition flex items-center justify-center gap-2 disabled:opacity-50"
+      >
+        {loading && (
+          <ReactLoading type="spin" color="#fff" height={18} width={18} />
+        )}
+        {loading ? "Submitting..." : "Add Note"}
+      </Button>
+    </div>
+
+ 
+    {empty && (
+      <div className="w-full max-w-4xl mt-6">
+        <Alert open={empty} onClose={() => Alert1()} color="red">
+          Please fill the Title
+        </Alert>
+      </div>
+    )}
+  </div>
+);
+ }
 export default Note;
 
 
