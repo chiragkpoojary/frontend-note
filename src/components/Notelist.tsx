@@ -2,7 +2,7 @@ import {Typography, Card, Chip, Button, IconButton} from "@material-tailwind/rea
 import {FaRegLightbulb} from "react-icons/fa6";
 import {useState, useEffect} from 'react';
 import { useRecoilState} from 'recoil';
-
+import Pagination from "./pagination.tsx";
 import axios from "axios";
 import {AxiosResponse} from 'axios';
 
@@ -163,7 +163,7 @@ function NotesList() {
     const token = localStorage.getItem("jwtToken");
     const [boxes, setBoxes] = useRecoilState(noteState);
     const [totalPage, setTotalPages] = useState(0);
-    
+
     const [currentPage, setCurrentPage] = useState(1);
     const notesPerPage = 6; 
     const [lastChecked, setLastChecked] = useState(new Date().toISOString());
@@ -233,22 +233,12 @@ function NotesList() {
 
 
                     <div className="flex justify-center space-x-2 mt-4">
-                        <Button
-                            className="text-gray-500"
-                            onClick={() => setCurrentPage(currentPage - 1)}
-                            disabled={currentPage === 1}
-                            variant="gradient"
-                        >
-                            &lt;
-                        </Button>
-                        <Button
-                            className="text-gray-500"
-                            onClick={() => setCurrentPage(currentPage + 1)}
-                            disabled={totalPage === currentPage}
-                            variant="gradient"
-                        >
-                            &gt;
-                        </Button>
+
+                    <Pagination
+      currentPage={currentPage}
+      totalPages={totalPage}
+      onPageChange={(page) => setCurrentPage(page)}
+    />
                     </div>
                     <Typography className="text-center mt-2 text-gray-900 font-semibold">
                         Page {currentPage}/{totalPage}
