@@ -149,7 +149,7 @@ return (
     />
 
     
-<div className="w-full max-w-4xl mb-4 mt-2">
+<div className="w-full max-w-4xl mb-11 mt-3">
   <div className="max-w-sm">
     <TagInput tags={Tags} setTags={setTags} empty={empty} />
   </div>
