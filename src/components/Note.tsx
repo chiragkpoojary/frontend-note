@@ -54,7 +54,7 @@ function TagInput({ tags, setTags,empty }: { tags: string[], setTags: React.Disp
        onClick={()=>{AddTag()}}
         className="!absolute right-1 top-1 rounded"
       >Add</Button>
-      <div className="absolute top-full left-0 mt-2 flex flex-wrap gap-2 mb-[3rem]">
+      <div className="absolute top-full left-0 mt-2 flex flex-wrap gap-2 mb-16">
         {tags.map((tag, index) => (
           <Chip 
             key={index} 
